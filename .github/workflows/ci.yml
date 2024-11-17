@@ -1,0 +1,30 @@
+name: CI for Web App
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      # Step 3: Build the Docker image
+      - name: Build Docker image
+        run: docker build -t webapp .
+
+      # Step 4: Run the container to test it (optional)
+      - name: Test Docker container
+        run: docker run -d -p 3000:3000 webapp
